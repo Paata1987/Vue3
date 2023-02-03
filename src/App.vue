@@ -7,9 +7,8 @@
 
           <h1>{{ title }}</h1>
 
-          <div class="message" v-if="message">
-            <p>{{ message }}</p>
-          </div>
+          <message v-if="message" :message="message" />
+
           <!-- new note -->
           <div class="new-note">
             <input type="text" v-model="note.title" />
@@ -34,7 +33,11 @@
   </div>
 </template>
 <script>
+import message from '@/components/Message-error.vue';
 export default {
+  components: {
+    message: message,
+  },
   data() {
     return {
       title: 'Notes App',
