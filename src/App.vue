@@ -1,29 +1,87 @@
 <template>
-  <div id="App">
-    <h1>Todo Application</h1>
-    <hr />
-    <TodoList />
+  <div class="wrapper">
+    <div class="wrapper-content">
+      <section>
+        <div class="container">
+          <!--app  -->
+
+          <h1>{{ title }}</h1>
+
+          <div class="message" v-if="message">
+            <p>{{ message }}</p>
+          </div>
+          <!-- new note -->
+          <div class="new-note">
+            <input type="text" v-model="note.title" />
+            <textarea v-model="note.descr"> </textarea>
+            <button @click="addNote">New Note</button>
+          </div>
+
+          <div class="notes">
+            <div class="note" v-for="(note, index) in notes" :key="index">
+              <div class="node-header">
+                <p>{{ note.title }}</p>
+              </div>
+              <div class="note-body">
+                <p>{{ note.descr }}</p>
+                <p>{{ note.date }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
-
 <script>
-import TodoList from '@/components/TodoList.vue';
-
 export default {
-  name: 'App',
-  components: {
-    TodoList: TodoList,
+  data() {
+    return {
+      title: 'Notes App',
+      message: null,
+      note: {
+        title: '',
+        descr: '',
+      },
+      notes: [
+        {
+          title: 'First Note',
+          descr: 'Description for first note',
+          date: new Date(Date.now()).toLocaleString(),
+        },
+        {
+          title: 'Second Note',
+          descr: 'Description for second note',
+          date: new Date(Date.now()).toLocaleString(),
+        },
+        {
+          title: 'Third Note',
+          descr: 'Description for third note',
+          date: new Date(Date.now()).toLocaleString(),
+        },
+      ],
+    };
+  },
+  methods: {
+    addNote() {
+      //console.log(this.note);
+      const { title, descr } = this.note;
+      if (title === '') {
+        this.message = 'Tittle can not  be empty';
+        return false;
+      }
+
+      this.notes.push({
+        title,
+        descr,
+        date: new Date(Date.now()).toLocaleString(),
+      });
+      this.message = null;
+      this.note.descr = '';
+      this.note.title = '';
+    },
   },
 };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
